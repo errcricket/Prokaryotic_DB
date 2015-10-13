@@ -1,5 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+import codecs
  
 #from prokarotic_declarative import Species, Base, Gene, Bacteria_Gene, Primer
 from prokarotic_declarative import Species, Base
@@ -58,7 +59,8 @@ def insert_values(fileLine):
 #session.commit()
 
 count = 2 
-with open('mimiDb.txt', 'r') as inputFile:
+with codecs.open('mimiDb.txt', 'r', encoding='utf8') as inputFile:
+#with open('mimiDb.txt', 'r') as inputFile:
 	firstLine = inputFile.readline()
 	
 	lines = inputFile.readlines()
