@@ -35,7 +35,7 @@ def insert_values(fileLine):
 	
 	sLine = fileLine.split('\t')
 
-	Species = 'E. coli'
+	name_genus = 'E. coli'
 	Serotype = sLine[0]
 	Strain = sLine[1]
 	Accession = sLine[2]
@@ -46,7 +46,7 @@ def insert_values(fileLine):
 	sTechnology = sLine[7]
 	additional_info = sLine[8]
 	
-	new_species = Species(genus_name=Species, serotype = Serotype, strain=Strain, accession=Accession, GC_percentage=GC, gene_count=count_gene, plasmid_count=count_plasmid, sequencing_technology=sTechnology, description=additional_info)
+	new_species = Species(genus_name=name_genus, serotype = Serotype, genome_size=G_size, strain=Strain, accession=Accession, GC_percentage=GC, gene_count=count_gene, plasmid_count=count_plasmid, sequencing_technology=sTechnology, description=additional_info)
 	
 	session.add(new_species)
 	session.commit()
@@ -56,11 +56,13 @@ def insert_values(fileLine):
 #session.add(new_gene)
 #session.commit()
 
- 
+count = 2 
 with open('mimiDb.txt', 'r') as inputFile:
 	firstLine = inputFile.readline()
 	
 	lines = inputFile.readlines()
 	for line in lines:
+		print count
 		line = line.replace('\n', '')
 		insert_values(line)
+		count+=1
