@@ -5,6 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from prokarotic_declarative import Species, Base
  
 engine = create_engine('sqlite:///prokarotic.db')
+engine.raw_connection().connection.text_factory = str
 # Bind the engine to the metadata of the Base class so that the
 # declaratives can be accessed through a DBSession instance
 Base.metadata.bind = engine
@@ -46,7 +47,7 @@ def insert_values(fileLine):
 	sTechnology = sLine[7]
 	additional_info = sLine[8]
 	
-	new_species = Species(genus_name=name_genus, serotype = Serotype, genome_size=G_size, strain=Strain, accession=Accession, GC_percentage=GC, gene_count=count_gene, plasmid_count=count_plasmid, sequencing_technology=sTechnology, description=additional_info)
+	new_species = Species(genus_name=name_genus, serotype=Serotype, genome_size=G_size, strain=Strain, accession=Accession, GC_percentage=GC, gene_count=count_gene, plasmid_count=count_plasmid, sequencing_technology=sTechnology, description=additional_info)
 	
 	session.add(new_species)
 	session.commit()
