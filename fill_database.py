@@ -19,10 +19,12 @@ DBSession = sessionmaker(bind=engine)
 # session.rollback()
 session = DBSession()
 
-def is_na(key, value):
-	if value == 'na':
-		key = 0
-	elif value != 'na' and key != 'GC':
+def is_na(key, value): 
+	# Handles na issues as well as conversion to int/float
+	#value = value.ascii_lowercase()
+	if value == 'na' or value == 'NA' or value == 'Na':
+		value = 0
+	elif value != 'na' and key != 'GC': #this will need to be update in the future
 		value = int(value.replace(',', ''))
 	elif value != 'na' and key == 'GC':
 		value = float(value.replace(',', ''))
@@ -63,35 +65,3 @@ with open('mimiDb.txt', 'r') as inputFile:
 	for line in lines:
 		line = line.replace('\n', '')
 		insert_values(line)
-		
-'''
-Press ENTER or type command to continue
-Traceback (most recent call last):
-  File "fill_database.py", line 54, in <module>
-    insert_values(line)
-  File "fill_database.py", line 38, in insert_values
-    new_species = Species(genus_name=Species, serotype = Serotype, strain=Strain, accession=Accession, GC_percentage=GC, gene_count=count_gene, plasmid_count=count_plasmid, sequencing_technology=sTechnology, description=additional_info)
-TypeError: 'str' object is not callable
-
-shell returned 1
-
-Serotype^IStrain name^IAccession # (GenBank)^ISize of Chromosome (bp)^INo. of Plasmids^IG+C (%)^I# of Genes^ISequencing Technology^IStrain information$
-class Species(Base):
-	__tablename__ = 'species'
-	# Here we define columns for the table species
-	# Notice that each column is also a normal Python instance attribute.
-	id = Column(INTEGER, primary_key=True)
-	genus_name = Column(String(250), nullable=False)
-	serotype = Column(String(20), nullable=False)
-	strain = Column(String(20), nullable=False)
-	description = Column(String(250), nullable=False)
-	accession = Column(String(15), nullable=False)
-	GC_percentage = Column(FLOAT(4), nullable=False)
-	genome_size = Column(INTEGER, nullable=False)
-	gene_count = Column(INTEGER, nullable=False)
-	plasmid_count = Column(INTEGER, nullable=False)
-	#plasmids = Column(String(250), nullable=False)
-	#PAI_count = Column(INTEGER, nullable=False)
-	#sequence = Column(String(250), nullable=False)
-	sequencing_technology = Column(String(20), nullable=False)
-'''
