@@ -21,8 +21,7 @@ session = DBSession()
 
 def is_na(key, value): 
 	# Handles na issues as well as conversion to int/float
-	#value = value.ascii_lowercase()
-	if value == 'na' or value == 'NA' or value == 'Na':
+	if value == 'na' or value == 'NA' or value == 'Na': #value = value.ascii_lowercase()
 		value = 0
 	elif value != 'na' and key != 'GC': #this will need to be update in the future
 		value = int(value.replace(',', ''))
